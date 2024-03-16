@@ -52,12 +52,6 @@ void setup()
 
 void loop()
 {
-  // if (uno_node_serial.available() > 0)
-  // {
-  //   Serial.println("starting");
-  //   String response = uno_node_serial.readStringUntil('\n');
-  //   Serial.println(response);
-  // }
   char key = keypad.getKey();
   if (key != NO_KEY)
   {
@@ -108,35 +102,22 @@ void loop()
           {
             uno_node_serial.write(string_to_send);
           }
-          while (1)
-          {
-            delay(5000);
-            if (uno_node_serial.available() > 0)
-            {
-              Serial.println("eyererere");
-              String response = uno_node_serial.readStringUntil('\n');
-              if (response == "201")
-              {
-                Serial.print("voted for ");
-                Serial.println(key);
-              }
-              else
-              {
-                Serial.println("vote not valid");
-              }
-              break;
-            }
-          }
-          // Serial.print("voted for ");
-          // Serial.println(key);
+
+          Serial.print("voted for ");
+          Serial.println(key);
         }
       }
       break;
     case 'A':
+      if (STATE == 1)
+      {
+        STATE = 0;
+        break;
+      }
       Serial.println("waiting for admin's fingerprint..");
       if (getFingerprintID() == 1)
       {
-        STATE = !STATE;
+        STATE = 1;
         Serial.print("current state: ");
         Serial.print(STATE);
         Serial.println();
